@@ -45,7 +45,7 @@ public class LambdaThread implements Runnable
     boolean suspend = false;    
     boolean finish  = false;
             
-    protected boolean terminated()
+    public boolean isTerminated()
     {
         return finish;
     }
@@ -77,8 +77,13 @@ public class LambdaThread implements Runnable
         while(true)
         {
             runnable.run();
-            if(terminated()) return;
+            if(isTerminated()) return;
         }
+    }
+    
+    public boolean isPaused()
+    {
+        return suspend;
     }
     
     public void setRunnable(Runnable runnable)
@@ -88,13 +93,25 @@ public class LambdaThread implements Runnable
     
     public void startExecution(Runnable runnable)
     {
+        if(runnable == null) return;
+        
         this.runnable = runnable;
         this.startExecution();
     }
     
+    public void restartExecution()
+    {
+        if(finish)
+        {
+            suspend = false;
+            finish = false;
+            this.startExecution();
+        }
+    }
+    
     public void startExecution()
     {
-        if(runnable == null) return;
+        if(runnable == null) return; 
         
         this.thread = new Thread(this);
         this.thread.start();
@@ -102,6 +119,7 @@ public class LambdaThread implements Runnable
     
     public void stopExecution()
     {
+        suspend = false;
         finish = true;
     }
     
@@ -118,6 +136,7 @@ public class LambdaThread implements Runnable
     
     public static void executeThread(Runnable runnable)
     {
+        
         Thread thread = new Thread(runnable);
         thread.start();
     }

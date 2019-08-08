@@ -5,7 +5,6 @@
  */
 package thread.model;
 
-import java.util.ArrayList;
 import java.util.Stack;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -30,7 +29,7 @@ public class ThreadPool {
     
     public ThreadPool()
     {
-        poolSize = 4;
+        poolSize = Runtime.getRuntime().availableProcessors();
         pool = Executors.newFixedThreadPool(poolSize);
         futures = new Stack<>();
     }
