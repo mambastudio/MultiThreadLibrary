@@ -47,7 +47,7 @@ public class LambdaThread implements Runnable
             
     public boolean isTerminated()
     {
-        return finish;
+        return finish || thread == null || !thread.isAlive();
     }
         
     //Call this inside method execution to make use of thread states
@@ -77,7 +77,8 @@ public class LambdaThread implements Runnable
         while(true)
         {
             runnable.run();
-            if(isTerminated()) return;
+            if(isTerminated())          
+                return;            
         }
     }
     
