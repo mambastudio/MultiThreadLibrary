@@ -95,6 +95,7 @@ public class LambdaThread implements Runnable
     public void startExecution(Runnable runnable)
     {
         if(runnable == null) return;
+        if(!isTerminated()) return;
         suspend = false;
         finish = false;
         this.runnable = runnable;
