@@ -23,6 +23,9 @@
  */
 package thread.model;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author user
@@ -69,6 +72,15 @@ public class LambdaThread implements Runnable
         {           
             wait();
         }         
+    }
+    
+    public void join()
+    {
+        try {
+            thread.join();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(LambdaThread.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @Override
